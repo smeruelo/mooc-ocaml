@@ -19,9 +19,13 @@
 ### 4. Case study: a story teller
 [video](https://www.fun-mooc.fr/courses/parisdiderot/56002S02/session02/jump_to_id/W3S3Video)
 [slides](https://www.fun-mooc.fr/c4x/parisdiderot/56002S02/asset/slides_cc3061eb2d687d7384e320770839d18f.pdf)
+1. [Type directed programming](w3_4.1_type_directed_prog.md)
 ### 5. Polymorphic algebraic datatypes
 [video](https://www.fun-mooc.fr/courses/parisdiderot/56002S02/session02/jump_to_id/W3S4Video)
 [slides](https://www.fun-mooc.fr/c4x/parisdiderot/56002S02/asset/slides_39dbaacb62ca5793ba1e4710b2acd92b.pdf)
+1. [Balanced binary trees](w3_5.1_balanced_binary_trees.md)
+2. [An implementation of list with an efficient concatenation](w3_5.2_list_efficient_concat.md)
 ### 6. Advanced topics
 [video](https://www.fun-mooc.fr/courses/parisdiderot/56002S02/session02/jump_to_id/W3S5Video)
 [slides](https://www.fun-mooc.fr/c4x/parisdiderot/56002S02/asset/slides_78245f4f4a7b35decd39ea58a1a350b6.pdf)
+1. [Advanced patterns](w3_6.1_advanced_patterns.md)
