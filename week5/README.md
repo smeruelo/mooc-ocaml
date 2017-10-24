@@ -6,7 +6,7 @@
 ### 2. Getting and handling your Exceptions
 [video](https://www.fun-mooc.fr/courses/parisdiderot/56002S02/session02/jump_to_id/W5S1Video)
 [slides](https://www.fun-mooc.fr/c4x/parisdiderot/56002S02/asset/slides_1191158b2f45c0b782fcdc27726bb65c.pdf)
-1. [Unraveling the automatic grader](w5_2.1automatic_grader.md)
+1. [Unraveling the automatic grader](w5_2.1_automatic_grader.md)
 ### 3. Getting information in and out
 [video](https://www.fun-mooc.fr/courses/parisdiderot/56002S02/session02/jump_to_id/W5S2Video)
 [slides](https://www.fun-mooc.fr/c4x/parisdiderot/56002S02/asset/slides_e6981924492b517f65444fecb1a174f1.pdf)
