@@ -1,5 +1,7 @@
 # Week 1: Basic types, definitions and functions
 
+### 0. Tezos
+[video](https://d381hmu4snvm3e.cloudfront.net/videos/I6bhLOYjz9hK/HD.mp4)
 ### 1. Basic Data Types
 [video](https://d381hmu4snvm3e.cloudfront.net/videos/5g3K084ReT5q/HD.mp4)
 [slides](https://www.fun-mooc.fr/c4x/parisdiderot/56002S02/asset/slides_a198cde3b7315005a64f23667f45da35.pdf)
