@@ -1,4 +1,4 @@
-These are my solutions to the exercises of the MOOC [Functional Programming in OCaml](https://www.fun-mooc.fr/courses/parisdiderot/56002S02/session02/about) by the _Université Paris Diderot_.
+These are my solutions to the exercises of the MOOC [Functional Programming in OCaml](https://www.fun-mooc.fr/courses/parisdiderot/56002S02/session02/about) by Roberto Di Cosmo, Yann Regis-Gianas and Ralf Treinen (_Université Paris Diderot_).
 
 The course is divided in weeks:
 * [Week 0](week0): Introduction and overview
