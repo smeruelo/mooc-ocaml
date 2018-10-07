@@ -20,4 +20,4 @@ let min_index a =
       mi
   in aux 0 a.(0) 0
 
-let it_scales = "yes"
+let it_scales = "no"
