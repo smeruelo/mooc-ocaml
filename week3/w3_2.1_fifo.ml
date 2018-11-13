@@ -1,25 +1,19 @@
-type queue = int list * int list
+type queue = int list * int list;;
 
-let is_empty =
-  front == [] && back == []
+let is_empty (front, back) =
+  front == [] && back == [];;
 
 let enqueue x (front, back) =
-  (front, x :: back)
+  (front, x :: back);;
 
 let split l =
-  let med = List.length l / 2
-  and len = List.length l in
-  let rec aux l i front kcab =
-    if i < med then
-      aux (List.tl l) (i + 1) front ((List.hd l) :: kcab)
-    else if i < len then
-      aux (List.tl l) (i + 1) ((List.hd l) :: front) kcab
-    else
-      (front, List.rev kcab)
-  in aux l 0 [] []
+  let rec aux back lst =
+    match lst with
+    | lst when List.length lst - List.length back <= 1 -> (List.rev lst, List.rev back)
+    | hd :: tl -> aux (hd :: back) tl in
+  aux [] l;;
 
 let dequeue (front, back) =
-  if List.tl front == [] then
-    (List.hd front, split back)
-  else
-    (List.hd front, (List.tl front, back))
+  match front with
+  | [] -> let (f_hd :: f_tl), b = split back in (f_hd, (f_tl, b))
+  | hd :: tl -> (hd, (tl, back));;
