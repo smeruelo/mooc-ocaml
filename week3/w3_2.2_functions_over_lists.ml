@@ -1,37 +1,18 @@
-let mem x l =
-  let rec aux l =
-    if l = [] then
-      false
-    else if List.hd l == x then
-      true
-    else
-      aux (List.tl l)
-  in aux l
+let rec mem x = function
+  | [] -> false
+  | hd :: tl -> if hd = x then true else mem x tl;;
 
-let append l1 l2 =
-  let rec aux l1 =
-    if l1 == [] then
-      l2
-    else
-      (List.hd l1) :: (aux (List.tl l1))
-  in aux l1
+let rec append l1 l2 =
+  match l1 with
+  | [] -> l2
+  | hd :: tl -> hd :: append tl l2;;
 
-let combine l1 l2 =
-  let rec aux l1 l2 l =
-    if l1 = [] then
-      List.rev l
-    else
-      aux (List.tl l1) (List.tl l2) (((List.hd l1), (List.hd l2)) :: l)
-  in aux l1 l2 []
+let rec combine l1 l2 =
+  match l1, l2 with
+  | ([], []) -> []
+  | (hd1 :: tl1, hd2 :: tl2) -> (hd1, hd2) :: combine tl1 tl2;;
 
-let assoc l s =
-  let rec aux l =
-    if l == [] then
-      None
-    else
-      let (k, x) = List.hd l in
-      if String.compare k s == 0 then
-        Some x
-      else
-        aux (List.tl l)
-  in aux l
+let rec assoc l k =
+  match l with
+  | [] -> None
+  | (hd_s, hd_i) :: tl -> if hd_s = k then Some hd_i else assoc tl k;;
