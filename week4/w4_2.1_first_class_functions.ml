@@ -5,8 +5,7 @@ let rec compose = function
   | f :: tl -> fun x -> f (compose tl x)
 
 let rec fixedpoint f start delta =
-  let current = f start in
-  let next = f current in
-  if abs_float (current -. next) < delta
+  let next = f start in
+  if abs_float (next -. start) < delta
   then start
-  else fixedpoint f current delta
+  else fixedpoint f next delta
