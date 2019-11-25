@@ -15,4 +15,4 @@ let rec combine l1 l2 =
 let rec assoc l k =
   match l with
   | [] -> None
-  | (hd_s, hd_i) :: tl -> if hd_s = k then Some hd_i else assoc tl k;;
+  | (key, value) :: tl -> if key = k then Some value else assoc tl k;;
