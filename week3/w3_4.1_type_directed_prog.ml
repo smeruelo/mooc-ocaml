@@ -10,6 +10,7 @@ and event = Change of character * state | Action of character * action
 and state = Happy | Hungry | Tired
 and action = Eat | GoToRestaurant | Sleep
 and location = Appartment | Restaurant
+;;
 
 let compatible_actions_for_character character context =
   match character with
@@ -25,7 +26,7 @@ let apply_action character = function
       { location = Restaurant;
         state = character.state; name = character.name }
   | Sleep ->
-      { location = Appartment;
+      { location = character.location;
         state = Hungry; name = character.name }
 ;;
 
@@ -45,7 +46,7 @@ let compatible_actions context =
 
 let possible_changes_for_character character =
   match character with
-  | { state = Happy } -> [Hungry; Tired]
+  | { state = Happy } -> [Hungry]
   | { state = Hungry } -> []
   | { state = Tired } -> []
 ;;
