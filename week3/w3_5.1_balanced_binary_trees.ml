@@ -1,13 +1,11 @@
 type 'a bt =
   | Empty
-  | Node of 'a bt * 'a * 'a bt
+  | Node of 'a bt * 'a * 'a bt;;
 
-let rec height t =
-  match t with
+let rec height = function
   | Empty -> 0
-  | Node (lt, n, rt) -> 1 + max (height lt) (height rt)
+  | Node (lt, _, rt) -> 1 + max (height lt) (height rt);;
 
-let rec balanced t =
-  match t with
+let rec balanced = function
   | Empty -> true
-  | Node (lt, n, rt) -> balanced lt && balanced rt && height lt = height rt
+  | Node (lt, _, rt) -> balanced lt && balanced rt && height lt = height rt;;
