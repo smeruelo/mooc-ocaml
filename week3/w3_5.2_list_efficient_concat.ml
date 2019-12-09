@@ -1,59 +1,35 @@
 type 'a clist =
   | CSingle of 'a
   | CApp of 'a clist * 'a clist
-  | CEmpty
-
-let example =
-  CApp (CApp (CSingle 1,
-              CSingle 2),
-        CApp (CSingle 3,
-              CApp (CSingle 4, CEmpty)))
-
-let other_example =
-  CApp (CApp (CSingle 10,
-              (CApp (CSingle 20,
-                     CSingle 30))),
-        CApp (CSingle 40,
-              CApp (CSingle 50, CEmpty)))
+  | CEmpty;;
 
 let to_list cl =
-  let rec aux l cl =
-    match cl with
+  let rec aux l = function
+    | CSingle cs -> cs :: l
+    | CApp (cl_left, cl_right) -> aux (aux l cl_right) cl_left
     | CEmpty -> l
-    | CSingle s -> s :: l
-    | CApp (left, right) -> aux (aux l right) left
-  in aux [] cl
+  in aux [] cl;;
 
-let rec of_list l =
-  match l with
+let rec of_list = function
   | [] -> CEmpty
-  | hd :: tl -> CApp (CSingle hd, of_list tl)
+  | hd :: tl -> CApp (CSingle hd, of_list tl);;
 
 let append cl1 cl2 =
-  match (cl1, cl2) with
-  | (CEmpty, cl) | (cl, CEmpty) -> cl
-  | (cl1, cl2) -> CApp (cl1, cl2)
+  match cl1, cl2 with
+  | CEmpty, cl | cl, CEmpty -> cl
+  | cl1, cl2 -> CApp (cl1, cl2);;
 
 let hd cl =
-  let rec aux cl =
-    match cl with
+  let rec aux = function
     | CEmpty -> None
-    | CSingle item -> Some item
-    | CApp (left, right) ->
-      match aux left with
-      | None -> aux right
-      | Some i as result -> result
-  in aux cl
+    | CSingle cs -> Some cs
+    | CApp (cl_left, cl_right) -> match aux cl_left with
+      | None -> aux cl_right
+      | Some cs -> Some cs
+  in aux cl;;
 
-
-(* Assuming that any non-empty cl contains at least one element non-CEmty *)
+(* Feels like cheating, but I can't get it right any other way *)
 let tl cl =
-  let rec aux cl =
-    match cl with
-    | CApp (CSingle _, right) -> right
-    | CApp (CEmpty, right) -> aux right
-    | CApp (left, right) -> CApp (aux left, right)
-  in match cl with
-  | CEmpty -> None
-  | CSingle item -> Some CEmpty
-  | cl -> Some (aux cl)
+  match to_list cl with
+  | [] ->  None
+  | hd :: tl -> Some (of_list tl);;
