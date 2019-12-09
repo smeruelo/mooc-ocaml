@@ -28,8 +28,13 @@ let hd cl =
       | Some cs -> Some cs
   in aux cl;;
 
-(* Feels like cheating, but I can't get it right any other way *)
 let tl cl =
-  match to_list cl with
-  | [] ->  None
-  | hd :: tl -> Some (of_list tl);;
+  let rec aux = function
+    | CEmpty -> (CEmpty, false)
+    | CSingle _ -> (CEmpty, true)
+    | CApp (left, right) -> match aux left with
+      | left', false -> let (right', found) = aux right in (CApp (left', right'), found)
+      | left', true -> (CApp (left', right), true)
+  in match aux cl with
+  | _, false -> None
+  | cl_tl, true -> Some cl_tl;;
