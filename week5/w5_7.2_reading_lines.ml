@@ -1,5 +1,5 @@
 (*
-read_lines is a **variable**, which value is a function that receives unit
+read_lines is an **identifier** for a function that receives unit
 that function is defined within a context in which sl exists (clousure!)
 so everytime we call read_lines (), it uses the same ref (sl) to store the lines
 sl is empty the first time only
