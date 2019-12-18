@@ -12,7 +12,6 @@ let cons elt rest =
 
 exception Empty_xlist ;;
 
-
 let head l =
   match l.pointer with
   | Nil -> raise Empty_xlist
@@ -24,9 +23,7 @@ let tail l =
   | List (hd, tl) -> tl
 
 let add a l =
-  match l.pointer with
-  | Nil -> l.pointer <- List (a, { pointer = Nil })
-  | _ -> l.pointer <- List (a, { pointer = l.pointer })
+  l.pointer <- List (a, { pointer = l.pointer })
 
 (* Using the provided functions *)
 let add a l =
@@ -47,10 +44,8 @@ let rec append l1 l2 =
 let rec filter p l =
   match l.pointer with
   | Nil -> ()
-  | List (hd, tl) ->
-    if p hd
-    then filter p tl
-    else l.pointer <- tl.pointer; filter p tl
+  | List (hd, tl) when p hd -> filter p tl
+  | List (hd, tl) -> l.pointer <- tl.pointer; filter p l
 
 (*
 let xl = { pointer = List (1, { pointer = List (2, { pointer = List (3, { pointer = Nil }) }) }) }
