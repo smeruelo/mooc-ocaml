@@ -27,7 +27,6 @@ end
 
 
 module MultiSet : MultiSet_S = struct
-
   type 'a t = ('a * int) list
 
   let occurrences s x =
@@ -39,26 +38,23 @@ module MultiSet : MultiSet_S = struct
 
   let insert s x =
     match occurrences s x with
-      | 0 -> (x, 1) :: s
-      | i -> List.sort Pervasives.compare ((x, (i + 1)) :: (List.remove_assoc x s))
+    | 0 -> List.sort compare ((x, 1) :: s)
+    | i -> List.sort compare ((x, (i + 1)) :: (List.remove_assoc x s))
 
   let remove s x =
     match occurrences s x with
     | 0 -> s
     | 1 -> List.remove_assoc x s
-    | i -> List.sort Pervasives.compare ((x, (i - 1)) :: (List.remove_assoc x s))
+    | i -> List.sort compare ((x, (i - 1)) :: (List.remove_assoc x s))
 
 end ;;
 
 
 let letters word =
-  let rec iter i ms =
-    if i = String.length word then
-      ms
-    else
-      iter (i + 1) (MultiSet.insert ms word.[i])
-  in
-  iter 0 MultiSet.empty
+  let rec aux s = function
+    | 0 -> s
+    | i -> aux (MultiSet.insert s word.[i - 1]) (i - 1)
+  in aux MultiSet.empty (String.length word);;
 
 let anagram word1 word2 =
-  word1 = word2
+  letters word1 = letters word2 ;;
