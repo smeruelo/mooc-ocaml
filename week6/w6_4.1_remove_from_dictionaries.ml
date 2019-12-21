@@ -35,21 +35,20 @@ module Dict : DictSig = struct
       else lookup r k
 
   let rec remove d k =
-    let rec append l r =
+    let rec merge l r =
       match l with
       | Empty -> r
-      | Node (ll, kk, vv, rr) -> Node (ll, kk, vv, append rr r)
+      | Node (ll, kk, vv, rr) -> Node (ll, kk, vv, merge rr r)
     in
     match d with
-    | Empty -> raise NotFound
+    | Empty -> d
     | Node (l, k', v', r) ->
       if k = k' then
         match l, r with
         | Empty, _ -> r
         | _, Empty -> l
-        | _, _ -> append l r
+        | _, _ -> merge l r
       else if k < k' then Node ((remove l k), k', v', r)
       else Node (l, k', v', (remove r k))
 
 end ;;
-  
