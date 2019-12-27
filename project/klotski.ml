@@ -77,16 +77,31 @@ let near : int rel =
 let flat_map (r : 'e rel) =
   fun l -> List.concat (List.map r l) ;;
 
-let rec iter_rel r n =
+let rec iter_rel (r : 'e rel) (n : int) =
   fun x -> match n with
     | 0 -> [x]
     | i -> flat_map r (iter_rel r (n - 1) x) ;;
 
-let solve r p x =
-  "Replace this string with your implementation." ;;
+let solve (r : 'a rel) (p : 'a prop)  x =
+  let rec aux l =
+    try
+      find p l
+    with NotFound -> aux (flat_map r l)
+  in aux [x] ;;
 
-let solve_path r p x =
-  "Replace this string with your implementation." ;;
+let solve_path (r : 'a rel) (p : 'a prop) x =
+  let rec aux next = function
+    | [x] -> x :: (aux [] (r x))
+    | [] -> aux [] next
+    | hd :: tl when p hd -> [hd]
+    | hd :: tl ->
+      let partial = r hd in
+      try
+        [find p partial];
+      with NotFound -> aux (next @ partial) tl
+  in aux [] [x] ;;
+
+
 
 let archive_map opset r (s, l) =
   "Replace this string with your implementation." ;;
