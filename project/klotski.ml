@@ -82,12 +82,8 @@ let rec iter_rel (r : 'e rel) (n : int) =
     | 0 -> [x]
     | i -> flat_map r (iter_rel r (n - 1) x) ;;
 
-let solve (r : 'a rel) (p : 'a prop)  x =
-  let rec aux l =
-    try
-      find p l
-    with NotFound -> aux (flat_map r l)
-  in aux [x] ;;
+let solve (r : 'a rel) (p : 'a prop) (x : 'a) =
+  find p (loop (exists p) (flat_map r) [x]) ;;
 
 let solve_path (r : 'a rel) (p : 'a prop) x =
   let rec aux next = function
