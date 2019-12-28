@@ -65,7 +65,7 @@ let rec find p = function
 
 let rec exists p l =
   try
-    ignore (find p l);true
+    ignore (find p l); true
   with NotFound -> false ;;
 
 
