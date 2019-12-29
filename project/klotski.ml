@@ -85,28 +85,29 @@ let rec iter_rel (r : 'e rel) (n : int) =
 let solve (r : 'a rel) (p : 'a prop) (x : 'a) =
   find p (loop (exists p) (flat_map r) [x]) ;;
 
-let solve_path (r : 'a rel) (p : 'a prop) x =
-  let rec aux next = function
-    | [x] -> x :: (aux [] (r x))
-    | [] -> aux [] next
-    | hd :: tl when p hd -> [hd]
+let solve_path (r : 'a rel) (p : 'a prop) (x : 'a) =
+  let p' = fun l -> p (List.hd l) in
+  let r'= fun l -> List.map (fun e -> e :: l) (r (List.hd l)) in
+  List.tl (List.rev (solve r' p' [x; x])) ;;
+
+let archive_map (opset : ('a, 'set) set_operations) (r : 'a rel) (s, l) =
+  let rec aux s' l' = function
+    | [] -> (s', l')
     | hd :: tl ->
-      let partial = r hd in
-      try
-        [find p partial];
-      with NotFound -> aux (next @ partial) tl
-  in aux [] [x] ;;
+        if not (opset.mem hd s')
+        then aux (opset.add hd s') (hd :: l') tl
+        else aux s' l' tl
+  in aux s [] (flat_map r l) ;;
 
+let solve' (opset : ('a, 'set) set_operations) (r : 'a rel) (p : 'a prop) (x : 'a) =
+  let exists' (s, l) = exists p l in
+  let find' (s, l) = find p l in
+  find' (loop exists' (archive_map opset r) (opset.empty, [x])) ;;
 
-
-let archive_map opset r (s, l) =
-  "Replace this string with your implementation." ;;
-
-let solve' opset r p x =
-  "Replace this string with your implementation." ;;
-
-let solve_path' opset r p x =
-  "Replace this string with your implementation." ;;
+let solve_path' (opset : ('a list, 'set) set_operations) (r : 'a rel) (p : 'a prop) (x : 'a) =
+  let p' = fun l -> p (List.hd l) in
+  let r' = fun l -> List.map (fun e -> e :: l) (r (List.hd l)) in
+  List.tl (List.rev (solve' opset r' p' [x; x])) ;;
 
 let solve_puzzle p opset c =
   "Replace this string with your implementation." ;;
