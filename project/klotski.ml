@@ -109,8 +109,11 @@ let solve_path' (opset : ('a list, 'set) set_operations) (r : 'a rel) (p : 'a pr
   and r' = fun l -> List.map (fun e -> e :: l) (r (List.hd l))
   in List.tl (List.rev (solve' opset r' p' [x; x])) ;;
 
-let solve_puzzle p opset c =
-  "Replace this string with your implementation." ;;
+let solve_puzzle (p : ('c, 'm) puzzle) (opset : ('c list, 'set) set_operations) (c : 'c) =
+  let r c = List.map (p.move c) (p.possible_moves c)
+  and pred c = p.final c
+  in solve_path' opset r pred c ;;
+
 
 (* --- Part B: A Solver for Klotski --- *)
 
