@@ -86,9 +86,9 @@ let solve (r : 'a rel) (p : 'a prop) (x : 'a) =
   find p (loop (exists p) (flat_map r) [x]) ;;
 
 let solve_path (r : 'a rel) (p : 'a prop) (x : 'a) =
-  let p' = fun l -> p (List.hd l) in
-  let r'= fun l -> List.map (fun e -> e :: l) (r (List.hd l)) in
-  List.tl (List.rev (solve r' p' [x; x])) ;;
+  let p' = fun l -> p (List.hd l)
+  and r'= fun l -> List.map (fun e -> e :: l) (r (List.hd l))
+  in List.tl (List.rev (solve r' p' [x; x])) ;;
 
 let archive_map (opset : ('a, 'set) set_operations) (r : 'a rel) (s, l) =
   let rec aux s' l' = function
@@ -100,14 +100,14 @@ let archive_map (opset : ('a, 'set) set_operations) (r : 'a rel) (s, l) =
   in aux s [] (flat_map r l) ;;
 
 let solve' (opset : ('a, 'set) set_operations) (r : 'a rel) (p : 'a prop) (x : 'a) =
-  let exists' (s, l) = exists p l in
-  let find' (s, l) = find p l in
-  find' (loop exists' (archive_map opset r) (opset.empty, [x])) ;;
+  let exists' (s, l) = exists p l
+  and find' (s, l) = find p l
+  in find' (loop exists' (archive_map opset r) (opset.empty, [x])) ;;
 
 let solve_path' (opset : ('a list, 'set) set_operations) (r : 'a rel) (p : 'a prop) (x : 'a) =
-  let p' = fun l -> p (List.hd l) in
-  let r' = fun l -> List.map (fun e -> e :: l) (r (List.hd l)) in
-  List.tl (List.rev (solve' opset r' p' [x; x])) ;;
+  let p' = fun l -> p (List.hd l)
+  and r' = fun l -> List.map (fun e -> e :: l) (r (List.hd l))
+  in List.tl (List.rev (solve' opset r' p' [x; x])) ;;
 
 let solve_puzzle p opset c =
   "Replace this string with your implementation." ;;
