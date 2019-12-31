@@ -118,13 +118,59 @@ let solve_puzzle (p : ('c, 'm) puzzle) (opset : ('c list, 'set) set_operations) 
 (* --- Part B: A Solver for Klotski --- *)
 
 let final board =
-  "Replace this string with your implementation." ;;
+  board.(3).(1) = s && board.(3).(2) = s && board.(4).(1) = s && board.(4).(2) = s ;;
 
-let move_piece board piece { drow; dcol } =
-  "Replace this string with your implementation." ;;
+type location = { row : int; col : int} ;;
 
-let possible_moves board =
-  "Replace this string with your implementation." ;;
+(* List of locations occupied by a piece *)
+let piece_cells (b : board) (p : piece) =
+  let rec aux accum = function
+    | 20 -> accum
+    | i -> let r = (i / 4) and c = (i mod 4) in
+      if b.(r).(c) = p
+      then aux ({ row = r ; col = c } :: accum) (i + 1)
+      else aux accum (i + 1)
+  in aux [] 0 ;;
+
+let copy_board (b : board) =
+  let b' = [| [||] ; [||] ; [||] ; [||] ; [||] |] in
+  for row = 0 to 4 do
+    b'.(row) <- Array.copy b.(row)
+  done;
+  b' ;;
+
+let move_piece (b : board) (p : piece) { drow; dcol } =
+  let in_bounds loc =
+    loc.row >= 0 && loc.row < 5 && loc.col >= 0 && loc.col < 4
+  and free loc =
+    b.(loc.row).(loc.col) = x || b.(loc.row).(loc.col) = p in
+  let cells = piece_cells b p in
+  let new_cells =
+    List.map (fun loc -> { row = loc.row + drow ; col = loc.col + dcol }) cells in
+  if List.for_all in_bounds new_cells && List.for_all free new_cells then
+    let b' = copy_board b in
+    List.iter (fun loc -> b'.(loc.row).(loc.col) <- x) cells;
+    List.iter (fun loc -> b'.(loc.row).(loc.col) <- p) new_cells;
+    Some b'
+  else
+    None ;;
+
+let possible_moves (b : board) =
+  let all_dir = [ { drow = 0; dcol = -1 }
+                ; { drow = 0; dcol = 1 }
+                ; { drow = -1; dcol = 0 }
+                ; { drow = 1; dcol = 0 } ]
+  and define_move = fun p dir ->
+    match move_piece b p dir with
+    | None -> None
+    | Some b' -> Some (Move (p, dir, b')) in
+  let rec filter_moves accum = function
+    | [] -> accum
+    | hd :: tl -> match hd with
+      | None -> filter_moves accum tl
+      | Some m -> filter_moves (m :: accum) tl in
+  filter_moves [] (List.concat (List.map (fun p -> List.map (define_move p) all_dir) all_pieces)) ;;
+
 
 module BoardSet = Set.Make (struct
     type t = board
