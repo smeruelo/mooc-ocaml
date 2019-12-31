@@ -171,12 +171,28 @@ let possible_moves (b : board) =
       | Some m -> filter_moves (m :: accum) tl in
   filter_moves [] (List.concat (List.map (fun p -> List.map (define_move p) all_dir) all_pieces)) ;;
 
+let klotski : (board, move) puzzle = { move; possible_moves; final } ;;
 
 module BoardSet = Set.Make (struct
     type t = board
     let compare b1 b2 =
-      failwith "Replace this with your implementation." ;;
-  end)
+      let rec aux r c = match r, c with
+        | 4, 3 -> 0
+        | r, c -> match b1.(r).(c), b2.(r).(c) with
+          | (type1, num1), (type2, num2) when type1 = type2 && num1 = num2 ->
+            aux (r + (c + 1) / 4) ((c + 1) mod 4)
+          | (type1, num1), (type2, num2) when type1 = type2 && num1 != num2 -> compare num1 num2
+          | (X, _), (_, _) -> -1
+          | (_, _), (X, _) -> 1
+          | (V, _), (_, _) -> -1
+          | (_, _), (V, _) -> 1
+          | (C, _), (_, _) -> -1
+          | (_, _), (C, _) -> 1
+          | (H, _), (_, _) -> -1
+          | (_, _), (H, _) -> 1
+          | _, _ -> 1
+      in aux 0 0 ;;
+  end) ;;
 
 let solve_klotski initial_board =
   "Replace this string with your implementation." ;;
