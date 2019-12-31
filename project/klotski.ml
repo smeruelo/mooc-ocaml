@@ -201,4 +201,7 @@ module BoardSet = Set.Make (struct
   end) ;;
 
 let solve_klotski initial_board =
-  "Replace this string with your implementation." ;;
+  let opset = { empty = BoardSet.empty
+              ; mem = (fun l -> BoardSet.mem (List.hd l))
+              ; add = (fun l -> BoardSet.add (List.hd l)) }
+  in solve_puzzle klotski opset initial_board ;;
