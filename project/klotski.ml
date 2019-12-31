@@ -176,22 +176,28 @@ let klotski : (board, move) puzzle = { move; possible_moves; final } ;;
 module BoardSet = Set.Make (struct
     type t = board
     let compare b1 b2 =
-      let rec aux r c = match r, c with
-        | 4, 3 -> 0
-        | r, c -> match b1.(r).(c), b2.(r).(c) with
-          | (type1, num1), (type2, num2) when type1 = type2 && num1 = num2 ->
-            aux (r + (c + 1) / 4) ((c + 1) mod 4)
-          | (type1, num1), (type2, num2) when type1 = type2 && num1 != num2 -> compare num1 num2
-          | (X, _), (_, _) -> -1
-          | (_, _), (X, _) -> 1
-          | (V, _), (_, _) -> -1
-          | (_, _), (V, _) -> 1
-          | (C, _), (_, _) -> -1
-          | (_, _), (C, _) -> 1
-          | (H, _), (_, _) -> -1
-          | (_, _), (H, _) -> 1
-          | _, _ -> 1
-      in aux 0 0 ;;
+      let rec aux r row1 row2 c =
+        let p1 = row1.(c)
+        and p2 = row2.(c) in
+        match p1, p2 with
+        | (type1, num1), (type2, num2) when type1 = type2 && num1 = num2 ->
+          if c = 3 then
+            if r = 4
+            then 0
+            else aux (r + 1) b1.(r + 1) b2.(r + 1) 0
+          else
+            aux r row1 row2 (c + 1)
+        | (type1, num1), (type2, num2) when type1 = type2 && num1 != num2 -> compare num1 num2
+        | (X, _), (_, _) -> -1
+        | (_, _), (X, _) -> 1
+        | (V, _), (_, _) -> -1
+        | (_, _), (V, _) -> 1
+        | (C, _), (_, _) -> -1
+        | (_, _), (C, _) -> 1
+        | (H, _), (_, _) -> -1
+        | (_, _), (H, _) -> 1
+        | _, _ -> 1
+      in aux 0 b1.(0) b2.(0) 0 ;;
   end) ;;
 
 let solve_klotski initial_board =
