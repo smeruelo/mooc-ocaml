@@ -8,3 +8,4 @@ The course is divided in weeks:
 * [Week 4](week4): Higher order functions
 * [Week 5](week5): Exceptions, input/output and imperative constructs
 * [Week 6](week6): Modules and data abstraction
+* [Final project](project)
